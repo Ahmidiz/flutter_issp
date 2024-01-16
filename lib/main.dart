@@ -1,46 +1,25 @@
+// where the code is first run
+
 import 'package:flutter/material.dart';
+import 'package:issp_app/splash_screen.dart';
+//import 'package:fyear_app/screens/log_in_screen.dart';
+//import 'package:wigoh2_app/screens/splash_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp()); // this where the code start running from
 }
 
+// the class that contain the material app that is run first
 class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: LoginPage(),
-    );
-  }
-}
+  const MyApp({super.key});
 
-class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login Page'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: 'Email'),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(labelText: 'Password'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Login'),
-            ),
-          ],
-        ),
-      ),
+    return const MaterialApp(
+      debugShowCheckedModeBanner:
+          false, //removes the debug banner shown when in every default flutter interface
+      home:
+          SplashScreen(), // calss the Login page which allows user to make input
     );
   }
 }
