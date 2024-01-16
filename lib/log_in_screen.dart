@@ -1,13 +1,53 @@
 // this file will contain the various codes and assets that will be displayed on the login screen
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:issp_app/admin/admin_hpage.dart';
+import 'package:http/http.dart' as http;
+//import 'package:issp_app/admin/admin_hpage.dart';
 import 'package:issp_app/reusable/textbox.dart';
 import 'package:issp_app/user/user_hpage.dart';
 
 class LogInScreen extends StatelessWidget {
-  const LogInScreen({super.key});
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  LogInScreen({Key? key}) : super(key: key);
+
+  Future<void> loginUser(
+      BuildContext context, String email, String password) async {
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2/issplogin.php'),
+      body: {'email': email, 'password': password},
+    );
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      if (data['status'] == 'success') {
+        // Authentication successful, navigate to the appropriate page
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const UserHomePage()),
+        );
+      } else {
+        // Authentication failed, show an error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login failed: ${data['message']}'),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    } else {
+      // Handle server errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to connect to the server'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +86,11 @@ class LogInScreen extends StatelessWidget {
           const SizedBox(
             height: 70,
           ),
-          const MyTextField('Email'),
+          MyTextField('Email', controller: emailController),
           const SizedBox(
             height: 50,
           ),
-          const MyTextField('Password'),
+          MyTextField('Password', controller: passwordController),
           const SizedBox(
             height: 10,
           ),
@@ -74,16 +114,15 @@ class LogInScreen extends StatelessWidget {
             height: 50,
           ),
           OutlinedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AdminHomePage()));
-              },
-              style: OutlinedButton.styleFrom(
-                  fixedSize: const Size(300, 50),
-                  backgroundColor: Color.fromARGB(255, 105, 114, 58)),
-              child: const Text('Log In'))
+            onPressed: () {
+              loginUser(context, emailController.text, passwordController.text);
+            },
+            style: OutlinedButton.styleFrom(
+              fixedSize: const Size(300, 50),
+              backgroundColor: Color.fromARGB(255, 105, 114, 58),
+            ),
+            child: const Text('Log In'),
+          ),
 
           /* SizedBox(
               width: 40,

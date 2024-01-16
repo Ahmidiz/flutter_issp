@@ -3,36 +3,22 @@
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
-  const MyTextField(this.labelTxt, {super.key});
+  final String hintText;
+  final TextEditingController controller;
 
-  final String labelTxt;
-  //final Text theName;
+  const MyTextField(this.hintText, {Key? key, required this.controller})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: SizedBox(
-        width: 300,
-        child: TextField(
-
-            //maxLength: 100,
-            decoration: InputDecoration(
-          labelText: labelTxt,
-          enabledBorder: const OutlineInputBorder(
-            borderSide:
-                BorderSide(width: 1.5, color: Color.fromARGB(255, 3, 26, 117)),
-          ),
-          focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey)),
-        )
-
-            //passwoord textfield
-
-            //forgot password
-
-            //login button
-            ),
+    return Container(
+      width: 300,
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: hintText,
+          border: OutlineInputBorder(),
+        ),
       ),
     );
   }
