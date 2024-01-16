@@ -20,15 +20,15 @@ class LogInScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Wi",
+              Text("IS",
                   style: GoogleFonts.pacifico(
-                    color: const Color.fromARGB(255, 12, 58, 70),
+                    color: Color.fromARGB(255, 105, 114, 58),
                     fontSize: 44,
                     fontWeight: FontWeight.bold,
                   )),
-              Text('GoH',
+              Text('SP',
                   style: GoogleFonts.rufina(
-                    color: const Color.fromARGB(255, 129, 38, 8),
+                    color: Color.fromARGB(255, 34, 74, 3),
                     fontSize: 44,
                     fontWeight: FontWeight.bold,
                   )),
@@ -38,7 +38,7 @@ class LogInScreen extends StatelessWidget {
             height: 40,
           ),
 
-          const Text("Login to get Started",
+          const Text("Welcome to IS Solutions Pro",
               style: TextStyle(
                   color: Color.fromARGB(255, 14, 15, 14),
                   fontWeight: FontWeight.bold,
@@ -46,11 +46,11 @@ class LogInScreen extends StatelessWidget {
           const SizedBox(
             height: 70,
           ),
-          const MyTextField('username'),
+          const MyTextField('Email'),
           const SizedBox(
             height: 50,
           ),
-          const MyTextField('password'),
+          const MyTextField('Password'),
           const SizedBox(
             height: 10,
           ),
@@ -66,7 +66,7 @@ class LogInScreen extends StatelessWidget {
               child: const Text(
                 '                                                                     Sign Up',
                 style: TextStyle(
-                  color: Colors.red,
+                  color: Color.fromARGB(255, 54, 174, 244),
                 ),
               )),
 
@@ -82,7 +82,7 @@ class LogInScreen extends StatelessWidget {
               },
               style: OutlinedButton.styleFrom(
                   fixedSize: const Size(300, 50),
-                  backgroundColor: const Color.fromRGBO(181, 48, 13, 25)),
+                  backgroundColor: Color.fromARGB(255, 105, 114, 58)),
               child: const Text('Log In'))
 
           /* SizedBox(

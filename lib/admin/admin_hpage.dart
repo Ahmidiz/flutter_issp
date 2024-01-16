@@ -32,8 +32,7 @@ class AdminHomePage extends StatelessWidget {
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.white,
                             fixedSize: const Size(300, 60),
-                            backgroundColor:
-                                const Color.fromRGBO(181, 48, 13, 25),
+                            backgroundColor: Color.fromARGB(231, 14, 139, 148),
                           ),
                           child: const Text('User')),
                       const SizedBox(
@@ -45,7 +44,7 @@ class AdminHomePage extends StatelessWidget {
                               foregroundColor: Colors.white,
                               fixedSize: const Size(300, 60),
                               backgroundColor:
-                                  const Color.fromRGBO(181, 48, 13, 25)),
+                                  Color.fromARGB(231, 19, 144, 163)),
                           child: const Text('Client')),
                     ]),
                   ))),
