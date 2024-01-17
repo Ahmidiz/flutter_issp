@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:issp_app/admin/admin_hpage.dart';
 //import 'package:issp_app/admin/admin_hpage.dart';
 import 'package:issp_app/reusable/textbox.dart';
 import 'package:issp_app/user/user_hpage.dart';
@@ -26,7 +27,7 @@ class LogInScreen extends StatelessWidget {
         // Authentication successful, navigate to the appropriate page
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const UserHomePage()),
+          MaterialPageRoute(builder: (context) => const AdminHomePage()),
         );
       } else {
         // Authentication failed, show an error message

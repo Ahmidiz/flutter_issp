@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:issp_app/user/task_form.dart';
+import 'package:issp_app/admin/users.dart';
 
 class AdminHomePage extends StatelessWidget {
   const AdminHomePage({super.key});
@@ -94,34 +94,13 @@ class AdminHomePage extends StatelessWidget {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const TaskFormPage()));
+                                            builder: (context) => UsersPage()));
                                   },
                                   icon: Icon(Icons.assignment),
-                                  label: Text('TASKS'),
-                                  style: OutlinedButton.styleFrom(
-                                    fixedSize: Size(160.0, 100.0),
-                                    side: BorderSide.none, // No outline
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    border: Border.all(width: 1.0)),
-                                child: OutlinedButton.icon(
-                                  onPressed: () {
-                                    // Handle button tap
-                                  },
-                                  icon:
-                                      Icon(Icons.supervised_user_circle_sharp),
                                   label: Text('USERS'),
                                   style: OutlinedButton.styleFrom(
-                                    fixedSize: Size(160.0, 100.0),
-                                    // No outline
+                                    fixedSize: Size(300.0, 100.0),
+                                    side: BorderSide.none, // No outline
                                   ),
                                 ),
                               ),
@@ -131,25 +110,6 @@ class AdminHomePage extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    border: Border.all(width: 1.0)),
-                                child: OutlinedButton.icon(
-                                  onPressed: () {
-                                    // Handle button tap
-                                  },
-                                  icon: Icon(Icons.business_center),
-                                  label: Text('CLIENTS'),
-                                  style: OutlinedButton.styleFrom(
-                                    fixedSize: Size(160.0, 100.0),
-                                    // No outline
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10.0),
@@ -168,10 +128,10 @@ class AdminHomePage extends StatelessWidget {
                                   onPressed: () {
                                     // Handle button tap
                                   },
-                                  icon: Icon(Icons.feedback),
-                                  label: Text('FEEDBACK'),
+                                  icon: Icon(Icons.business_center),
+                                  label: Text('CLIENTS'),
                                   style: OutlinedButton.styleFrom(
-                                    fixedSize: Size(160.0, 100.0),
+                                    fixedSize: Size(300.0, 100.0),
                                     side: BorderSide.none, // No outline
                                   ),
                                 ),
