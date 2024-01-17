@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:issp_app/admin/users.dart';
 import 'package:issp_app/user/task_form.dart';
 
 class UserHomePage extends StatelessWidget {
@@ -114,7 +115,10 @@ class UserHomePage extends StatelessWidget {
                                     border: Border.all(width: 1.0)),
                                 child: OutlinedButton.icon(
                                   onPressed: () {
-                                    // Handle button tap
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => UsersPage()));
                                   },
                                   icon:
                                       Icon(Icons.supervised_user_circle_sharp),
