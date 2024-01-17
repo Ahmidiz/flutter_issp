@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:issp_app/log_in_screen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -22,29 +21,11 @@ class SplashScreen extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.all(40),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 350,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("IS",
-                    style: GoogleFonts.montserrat(
-                      color: const Color.fromARGB(255, 105, 114, 58),
-                      fontSize: 44,
-                      fontWeight: FontWeight.bold,
-                    )),
-                Text('SP',
-                    style: GoogleFonts.rufina(
-                      color: const Color.fromARGB(255, 34, 74, 3),
-                      fontSize: 44,
-                      fontWeight: FontWeight.bold,
-                    )),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
+            Image.asset(
+              'assets/images/logo.png',
+              height: 200,
             ),
             const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(

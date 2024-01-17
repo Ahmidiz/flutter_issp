@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:issp_app/user/task_form.dart';
 
 class UserHomePage extends StatelessWidget {
   const UserHomePage({super.key});
@@ -90,10 +91,14 @@ class UserHomePage extends StatelessWidget {
                                     )),
                                 child: OutlinedButton.icon(
                                   onPressed: () {
-                                    // Handle button tap
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const TaskFormPage()));
                                   },
                                   icon: Icon(Icons.assignment),
-                                  label: Text('Task 1'),
+                                  label: Text('TASKS'),
                                   style: OutlinedButton.styleFrom(
                                     fixedSize: Size(160.0, 100.0),
                                     side: BorderSide.none, // No outline
@@ -111,7 +116,8 @@ class UserHomePage extends StatelessWidget {
                                   onPressed: () {
                                     // Handle button tap
                                   },
-                                  icon: Icon(Icons.assignment),
+                                  icon:
+                                      Icon(Icons.supervised_user_circle_sharp),
                                   label: Text('USERS'),
                                   style: OutlinedButton.styleFrom(
                                     fixedSize: Size(160.0, 100.0),
@@ -133,8 +139,8 @@ class UserHomePage extends StatelessWidget {
                                   onPressed: () {
                                     // Handle button tap
                                   },
-                                  icon: Icon(Icons.assignment),
-                                  label: Text('USERS'),
+                                  icon: Icon(Icons.business_center),
+                                  label: Text('CLIENTS'),
                                   style: OutlinedButton.styleFrom(
                                     fixedSize: Size(160.0, 100.0),
                                     // No outline
@@ -162,8 +168,8 @@ class UserHomePage extends StatelessWidget {
                                   onPressed: () {
                                     // Handle button tap
                                   },
-                                  icon: Icon(Icons.assignment),
-                                  label: Text('Task 1'),
+                                  icon: Icon(Icons.feedback),
+                                  label: Text('FEEDBACK'),
                                   style: OutlinedButton.styleFrom(
                                     fixedSize: Size(160.0, 100.0),
                                     side: BorderSide.none, // No outline
