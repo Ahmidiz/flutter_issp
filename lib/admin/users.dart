@@ -1,9 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:issp_app/admin/adding_user.dart';
 
-class UsersPage extends StatelessWidget {
+class UsersPage extends StatefulWidget {
+  @override
+  _UsersPageState createState() => _UsersPageState();
+}
+
+class _UsersPageState extends State<UsersPage> {
+  late TextEditingController searchController;
+
   Future<List<User>> fetchUsers() async {
     final response = await http.get(
       Uri.parse('http://10.0.2.2/isspusers.php'),
@@ -19,50 +28,121 @@ class UsersPage extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    super.initState();
+    searchController = TextEditingController();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('User Details'),
-      ),
-      body: FutureBuilder<List<User>>(
-        future: fetchUsers(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else {
-            List<User>? users = snapshot.data;
+      backgroundColor: const Color.fromARGB(255, 247, 250, 255),
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Container(
+                      height: 40.0, // Adjust the height as needed
+                      child: TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          labelText: 'Search',
+                          prefixIcon: Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          // Add your search logic here
+                          print('Search Query: $value');
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Add your button click logic here
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AddUserPage()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(16.0),
+                  ),
+                  child: Icon(
+                    Icons.add,
+                    size: 20.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder<List<User>>(
+              future: fetchUsers(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                } else {
+                  List<User>? users = snapshot.data;
 
-            return ListView.builder(
-              itemCount: users?.length,
-              itemBuilder: (context, index) {
-                return UserContainer(user: users![index]);
+                  return ListView.builder(
+                    itemCount: users?.length,
+                    itemBuilder: (context, index) {
+                      return UserContainer(user: users![index]);
+                    },
+                  );
+                }
               },
-            );
-          }
-        },
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 class User {
-  final int id;
+  final String id;
   final String name;
   final String email;
+  final dynamic propic;
+  final String role;
+  final String phoneNumber;
 
-  User({required this.id, required this.name, required this.email});
+  User(
+      {required this.id,
+      required this.name,
+      required this.email,
+      required this.propic,
+      required this.role,
+      required this.phoneNumber});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? '',
+      id: json['userID'] ?? 0,
+      name: json['userFullName'] ?? '',
       email: json['email'] ?? '',
+      propic: json['userPic'] ?? '',
+      role: json['role'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
     );
   }
 }
@@ -75,20 +155,61 @@ class UserContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10.0),
-      padding: EdgeInsets.all(10.0),
+      height: 105,
+      margin: EdgeInsets.all(15.0),
+      padding: EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black),
-        borderRadius: BorderRadius.circular(10.0),
+        color: const Color.fromARGB(255, 247, 250, 255),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Color.fromARGB(231, 204, 184, 179)),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text('ID: ${user.id}'),
-          Text('Name: ${user.name}'),
-          Text('Email: ${user.email}'),
+          Container(
+            width: 80, // Adjust the width based on your design
+            height: 80, // Adjust the height based on your design
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              shape: BoxShape.rectangle,
+              image: DecorationImage(
+                image: MemoryImage(base64Decode(user
+                    .propic)), // Assuming user.propic is a base64-encoded string
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${user.id} ${user.name}',
+                    style: GoogleFonts.rufina(
+                      color: const Color.fromARGB(255, 129, 38, 8),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    )),
+                Text('           ${user.role}',
+                    style: GoogleFonts.aBeeZee(
+                      color: Color.fromARGB(255, 23, 22, 22),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    )),
+                Text('${user.email}'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(' ${user.phoneNumber}'),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 }
+
+
+/* */

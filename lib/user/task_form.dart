@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class TaskFormPage extends StatefulWidget {
-  const TaskFormPage({super.key});
+  const TaskFormPage({Key? key}) : super(key: key);
 
   @override
   State<TaskFormPage> createState() => _TaskFormPageState();
@@ -12,12 +13,38 @@ class _TaskFormPageState extends State<TaskFormPage> {
   TextEditingController projectNameController = TextEditingController();
   TextEditingController projectDescriptionController = TextEditingController();
 
+  Future<void> _submitForm() async {
+    try {
+      String apiUrl =
+          'http://10.0.2.2/isspmrep.php'; // Replace with your API URL
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        body: {
+          'clientName': clientNameController.text,
+          'projectName': projectNameController.text,
+          'projectDescription': projectDescriptionController.text,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Successful API call
+        print('Form submitted successfully');
+
+        // Navigate to the previous page
+        Navigator.pop(context);
+      } else {
+        // Handle error if the API call was not successful
+        print('Failed to submit form. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle any exceptions that may occur during the API call
+      print('Error submitting form: $error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
-        title: Text('Project Submission Form'),
-      ),*/
       backgroundColor: Color.fromARGB(255, 46, 82, 95),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -54,22 +81,10 @@ class _TaskFormPageState extends State<TaskFormPage> {
                   ),
                   SizedBox(height: 32.0),
                   ElevatedButton(
-                    onPressed: () {
-                      // Handle submission logic
-                      String clientName = clientNameController.text;
-                      String projectName = projectNameController.text;
-                      String projectDescription =
-                          projectDescriptionController.text;
-
-                      // Print or process the input data as needed
-                      print('Client Name: $clientName');
-                      print('Project Name: $projectName');
-                      print('Project Description: $projectDescription');
-                    },
+                    onPressed: _submitForm,
                     child: Text('Submit'),
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(
-                          255, 46, 82, 95), // Change button color
+                      primary: Color.fromARGB(255, 46, 82, 95),
                     ),
                   ),
                 ],
@@ -98,7 +113,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
           content: Container(
             padding: EdgeInsets.all(16.0),
             child: Column(
-              mainAxisSize: MainAxisSize.min, // Set to minimize height
+              mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
                   decoration: InputDecoration(labelText: 'Client Name'),
@@ -114,8 +129,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
                 SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {
-                    // Handle second form submission logic
-                    Navigator.of(context).pop(); // Close the dialog
+                    Navigator.of(context).pop();
                   },
                   child: Text('Submit'),
                 ),

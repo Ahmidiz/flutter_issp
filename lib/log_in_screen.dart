@@ -20,17 +20,29 @@ class LogInScreen extends StatelessWidget {
       Uri.parse('http://10.0.2.2/issplogin.php'),
       body: {'email': email, 'password': password},
     );
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (data['status'] == 'success') {
-        // Authentication successful, navigate to the appropriate page
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const AdminHomePage()),
-        );
+        final Map<String, dynamic> userDetails = data['user'];
+
+        if (userDetails['role'] == 'admin') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AdminHomePage(),
+            ),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserHomePage(userDetails: userDetails),
+            ),
+          );
+        }
       } else {
-        // Authentication failed, show an error message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Login failed: ${data['message']}'),
@@ -39,7 +51,6 @@ class LogInScreen extends StatelessWidget {
         );
       }
     } else {
-      // Handle server errors
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to connect to the server'),
@@ -47,6 +58,13 @@ class LogInScreen extends StatelessWidget {
         ),
       );
     }
+  }
+
+  Future<void> signUp(BuildContext context) async {
+    // Handle your sign-up logic here
+    // For example, you can navigate to a sign-up screen
+    // or show a dialog for the sign-up process
+    print('Navigate to sign-up screen or perform sign-up action');
   }
 
   @override
@@ -104,18 +122,16 @@ class LogInScreen extends StatelessWidget {
 
             //Text('                                               Dont have an account?'),
             InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UserHomePage()));
-                },
-                child: const Text(
-                  '                                                                     Sign Up',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 54, 174, 244),
-                  ),
-                )),
+              onTap: () {
+                signUp(context);
+              },
+              child: const Text(
+                'Sign Up',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 54, 174, 244),
+                ),
+              ),
+            ),
 
             const SizedBox(
               height: 50,
