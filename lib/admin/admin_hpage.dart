@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:issp_app/admin/users.dart';
+import 'package:issp_app/user/task_form.dart';
 
 class AdminHomePage extends StatelessWidget {
   const AdminHomePage({super.key});
@@ -137,6 +138,36 @@ class AdminHomePage extends StatelessWidget {
                                 ),
                               ),
                             ],
+                          ),
+                          SizedBox(height: 16.0),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                gradient: SweepGradient(
+                                  colors: [
+                                    Color.fromARGB(255, 46, 82, 95),
+                                    Colors.grey,
+                                    const Color.fromARGB(255, 239, 71, 71),
+                                    Color.fromARGB(255, 46, 82, 95)
+                                  ],
+                                  center: Alignment.center,
+                                  startAngle: 0.0,
+                                  endAngle: 1 * pi,
+                                )),
+                            child: OutlinedButton.icon(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TaskFormPage()));
+                              },
+                              icon: Icon(Icons.assignment),
+                              label: Text('TASK'),
+                              style: OutlinedButton.styleFrom(
+                                fixedSize: Size(300.0, 100.0),
+                                side: BorderSide.none, // No outline
+                              ),
+                            ),
                           ),
                         ],
                       ),
