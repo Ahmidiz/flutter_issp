@@ -3,30 +3,28 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:issp_app/admin/adding_user.dart';
-//import 'package:issp_app/admin/adding_user.dart';
-import 'package:issp_app/admin/manage_user.dart';
-//import 'package:issp_app/admin/users.dart';
+import 'package:issp_app/admin/adding_client.dart';
 
-class UsersPage extends StatefulWidget {
+class ClientsPage extends StatefulWidget {
   @override
-  _UsersPageState createState() => _UsersPageState();
+  _ClientsPageState createState() => _ClientsPageState();
 }
 
-class _UsersPageState extends State<UsersPage> {
+class _ClientsPageState extends State<ClientsPage> {
   late TextEditingController searchController;
 
-  Future<List<User>> fetchUsers() async {
+  Future<List<Client>> fetchClients() async {
     final response = await http.get(
-      Uri.parse('http://10.0.2.2/isspusers.php'),
-    ); // Replace with your API endpoint
+      Uri.parse('http://10.0.2.2/isspclients.php'),
+    );
 
     if (response.statusCode == 200) {
       List<dynamic> jsonList = json.decode(response.body);
-      List<User> users = jsonList.map((model) => User.fromJson(model)).toList();
-      return users;
+      List<Client> clients =
+          jsonList.map((model) => Client.fromJson(model)).toList();
+      return clients;
     } else {
-      throw Exception('Failed to load users');
+      throw Exception('Failed to load clients');
     }
   }
 
@@ -54,7 +52,7 @@ class _UsersPageState extends State<UsersPage> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Container(
-                      height: 40.0, // Adjust the height as needed
+                      height: 40.0,
                       child: TextField(
                         controller: searchController,
                         decoration: InputDecoration(
@@ -74,9 +72,10 @@ class _UsersPageState extends State<UsersPage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Add your button click logic here
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AddUserPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddClientPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     shape: CircleBorder(),
@@ -92,8 +91,8 @@ class _UsersPageState extends State<UsersPage> {
             ),
           ),
           Expanded(
-            child: FutureBuilder<List<User>>(
-              future: fetchUsers(),
+            child: FutureBuilder<List<Client>>(
+              future: fetchClients(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -104,22 +103,16 @@ class _UsersPageState extends State<UsersPage> {
                     child: Text('Error: ${snapshot.error}'),
                   );
                 } else {
-                  List<User>? users = snapshot.data;
+                  List<Client>? clients = snapshot.data;
 
                   return ListView.builder(
-                    itemCount: users?.length,
+                    itemCount: clients?.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  UserDetailsPage(user: users[index]),
-                            ),
-                          );
+                          // You can navigate to a detailed client page if needed
                         },
-                        child: UserContainer(user: users![index]),
+                        child: ClientsContainer(client: clients![index]),
                       );
                     },
                   );
@@ -133,38 +126,30 @@ class _UsersPageState extends State<UsersPage> {
   }
 }
 
-class User {
-  final String id;
-  final String name;
-  final String email;
-  final dynamic propic;
-  final String role;
-  final String phoneNumber;
+class Client {
+  final String clientName;
+  final String projectName;
+  final String projectDescription;
 
-  User(
-      {required this.id,
-      required this.name,
-      required this.email,
-      required this.propic,
-      required this.role,
-      required this.phoneNumber});
+  Client({
+    required this.clientName,
+    required this.projectName,
+    required this.projectDescription,
+  });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['userID'] ?? 0,
-      name: json['userFullName'] ?? '',
-      email: json['email'] ?? '',
-      propic: json['userPic'] ?? '',
-      role: json['role'] ?? '',
-      phoneNumber: json['phoneNumber'] ?? '',
+  factory Client.fromJson(Map<String, dynamic> json) {
+    return Client(
+      clientName: json['clientName'] ?? '',
+      projectName: json['projectName'] ?? '',
+      projectDescription: json['projectDescription'] ?? '',
     );
   }
 }
 
-class UserContainer extends StatelessWidget {
-  final User user;
+class ClientsContainer extends StatelessWidget {
+  final Client client;
 
-  const UserContainer({required this.user});
+  const ClientsContainer({required this.client});
 
   @override
   Widget build(BuildContext context) {
@@ -180,16 +165,13 @@ class UserContainer extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 80, // Adjust the width based on your design
-            height: 80, // Adjust the height based on your design
+            width: 80,
+            height: 80,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               shape: BoxShape.rectangle,
-              image: DecorationImage(
-                image: MemoryImage(base64Decode(user
-                    .propic)), // Assuming user.propic is a base64-encoded string
-                fit: BoxFit.cover,
-              ),
+              // Here, you can display an image related to the client if available
+              color: Colors.grey, // Placeholder color
             ),
           ),
           const SizedBox(width: 10),
@@ -197,25 +179,19 @@ class UserContainer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${user.id} ${user.name}',
+                Text('Client: ${client.clientName}',
                     style: GoogleFonts.rufina(
                       color: const Color.fromARGB(255, 129, 38, 8),
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     )),
-                Text('           ${user.role}',
+                Text('Project: ${client.projectName}',
                     style: GoogleFonts.aBeeZee(
                       color: Color.fromARGB(255, 23, 22, 22),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     )),
-                Text('${user.email}'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(' ${user.phoneNumber}'),
-                  ],
-                ),
+                Text('Description: ${client.projectDescription}'),
               ],
             ),
           ),
@@ -224,6 +200,3 @@ class UserContainer extends StatelessWidget {
     );
   }
 }
-
-
-/* */

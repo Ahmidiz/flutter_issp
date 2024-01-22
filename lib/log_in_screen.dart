@@ -31,7 +31,9 @@ class LogInScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AdminHomePage(),
+              builder: (context) => AdminHomePage(
+                userDetails: userDetails,
+              ),
             ),
           );
         } else {
