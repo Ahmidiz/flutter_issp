@@ -103,7 +103,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             GestureDetector(
               onTap: _pickImage,
               child: CircleAvatar(
-                radius: 60.0,
+                radius: 80.0,
                 backgroundImage: _pickedImage != null
                     ? FileImage(File(_pickedImage!.path))
                     : (currentUser.profilePic.isNotEmpty
@@ -112,24 +112,39 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         as ImageProvider<Object>,
               ),
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 20.0),
             TextField(
               controller: nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: InputDecoration(
+                labelText: 'Name',
+                border: OutlineInputBorder(),
+              ),
             ),
+            SizedBox(height: 12.0),
             TextField(
               controller: roleController,
-              decoration: InputDecoration(labelText: 'Role'),
+              decoration: InputDecoration(
+                labelText: 'Role',
+                border: OutlineInputBorder(),
+              ),
             ),
+            SizedBox(height: 12.0),
             TextField(
               controller: phoneNumberController,
-              decoration: InputDecoration(labelText: 'Phone Number'),
+              decoration: InputDecoration(
+                labelText: 'Phone Number',
+                border: OutlineInputBorder(),
+              ),
             ),
+            SizedBox(height: 12.0),
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(),
+              ),
             ),
-            SizedBox(height: 32.0),
+            SizedBox(height: 24.0),
             ElevatedButton(
               onPressed: _handleUpdateProfile,
               child: Text('Update Profile'),
@@ -137,8 +152,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LogInScreen()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LogInScreen()),
+                );
               },
               child: Text('Sign Out'),
             ),

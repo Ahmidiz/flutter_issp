@@ -26,9 +26,11 @@ class _UserHomePageState extends State<UserHomePage> {
       backgroundColor: const Color.fromARGB(255, 247, 250, 255),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.schedule), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.schedule), label: 'Schedule'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -60,18 +62,12 @@ class _UserHomePageState extends State<UserHomePage> {
             height: 800,
             child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
                     children: [
-                      Container(
-                        padding: EdgeInsets.all(1.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
                         child: IconButton(
                           icon: Icon(Icons.arrow_back_ios_sharp),
                           onPressed: () {
@@ -84,140 +80,100 @@ class _UserHomePageState extends State<UserHomePage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  SizedBox(
-                    height: 70,
-                    width: 400,
-                    child: Text(
-                      'Welcome to another beautiful day with Info Source, and we wish you a fruitful day',
-                      style: GoogleFonts.pacifico(
-                        color: Color.fromARGB(255, 18, 18, 18),
-                        fontSize: 21,
-                        fontWeight: FontWeight.bold,
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: SweepGradient(
+                        colors: [
+                          const Color.fromARGB(255, 11, 67, 113),
+                          Color.fromARGB(255, 11, 67, 113)
+                        ],
+                        startAngle: 0.0,
+                        endAngle: 2 * pi,
+                      ),
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'Welcome to another beautiful day with Info Source, and we wish you a fruitful day',
+                          style: GoogleFonts.montserrat(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
-                  ),
-                  Text('What do you want to do '),
-                  const SizedBox(
-                    height: 100,
+                    height: 40,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              gradient: SweepGradient(
-                                colors: [
-                                  Color.fromARGB(255, 46, 82, 95),
-                                  Colors.grey,
-                                  const Color.fromARGB(255, 239, 71, 71),
-                                  Color.fromARGB(255, 46, 82, 95),
-                                ],
-                                center: Alignment.center,
-                                startAngle: 0.0,
-                                endAngle: 1 * pi,
-                              ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const TaskFormPage(),
                             ),
-                            child: OutlinedButton.icon(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const TaskFormPage(),
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.assignment),
-                              label: Text('TASKS'),
-                              style: OutlinedButton.styleFrom(
-                                fixedSize: Size(160.0, 100.0),
-                                side: BorderSide.none,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              border: Border.all(width: 1.0),
-                            ),
-                            child: OutlinedButton.icon(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => UsersPage(),
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.supervised_user_circle_sharp),
-                              label: Text('USERS'),
-                              style: OutlinedButton.styleFrom(
-                                fixedSize: Size(160.0, 100.0),
-                              ),
-                            ),
-                          ),
-                        ],
+                          );
+                        },
+                        icon: Icon(Icons.assignment),
+                        label: Text('TASKS'),
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size(300.0, 100.0),
+                          primary: Colors.blue,
+                        ),
                       ),
-                      SizedBox(height: 16.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              border: Border.all(width: 1.0),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UsersPage(),
                             ),
-                            child: OutlinedButton.icon(
-                              onPressed: () {
-                                // Handle button tap
-                              },
-                              icon: Icon(Icons.business_center),
-                              label: Text('CLIENTS'),
-                              style: OutlinedButton.styleFrom(
-                                fixedSize: Size(160.0, 100.0),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              gradient: SweepGradient(
-                                colors: [
-                                  const Color.fromARGB(255, 239, 71, 71),
-                                  Colors.grey,
-                                  Color.fromARGB(255, 46, 82, 95),
-                                  const Color.fromARGB(255, 239, 71, 71),
-                                ],
-                                center: Alignment.center,
-                                startAngle: 0.0,
-                                endAngle: 1 * pi,
-                              ),
-                            ),
-                            child: OutlinedButton.icon(
-                              onPressed: () {
-                                // Handle button tap
-                              },
-                              icon: Icon(Icons.feedback),
-                              label: Text('FEEDBACK'),
-                              style: OutlinedButton.styleFrom(
-                                fixedSize: Size(160.0, 100.0),
-                                side: BorderSide.none,
-                              ),
-                            ),
-                          ),
-                        ],
+                          );
+                        },
+                        icon: Icon(Icons.supervised_user_circle_sharp),
+                        label: Text('USERS'),
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size(300.0, 100.0),
+                          primary: Colors.green,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          // Handle button tap
+                        },
+                        icon: Icon(Icons.business_center),
+                        label: Text('CLIENTS'),
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size(300.0, 100.0),
+                          primary: Colors.orange,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          // Handle button tap
+                        },
+                        icon: Icon(Icons.feedback),
+                        label: Text('FEEDBACK'),
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size(300.0, 100.0),
+                          primary: Colors.purple,
+                        ),
                       ),
                     ],
                   ),
