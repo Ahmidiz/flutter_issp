@@ -3,17 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:issp_app/admin/admin_hpage.dart';
-//import 'package:issp_app/admin/adding_user.dart';
-import 'package:issp_app/admin/manage_user.dart';
-//import 'package:issp_app/admin/users.dart';
 
-class UsersPage extends StatefulWidget {
+class UusersPage extends StatefulWidget {
   @override
-  _UsersPageState createState() => _UsersPageState();
+  _UusersPageState createState() => _UusersPageState();
 }
 
-class _UsersPageState extends State<UsersPage> {
+class _UusersPageState extends State<UusersPage> {
   late TextEditingController searchController;
 
   Future<List<User>> fetchUsers() async {
@@ -72,24 +68,6 @@ class _UsersPageState extends State<UsersPage> {
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Add your button click logic here
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AdminHomePage()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(16.0),
-                  ),
-                  child: Icon(
-                    Icons.add,
-                    size: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
               ],
             ),
           ),
@@ -111,18 +89,7 @@ class _UsersPageState extends State<UsersPage> {
                   return ListView.builder(
                     itemCount: users?.length,
                     itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  UserDetailsPage(user: users[index]),
-                            ),
-                          );
-                        },
-                        child: UserContainer(user: users![index]),
-                      );
+                      return UserContainer(user: users![index]);
                     },
                   );
                 }
@@ -166,7 +133,7 @@ class User {
 class UserContainer extends StatelessWidget {
   final User user;
 
-  const UserContainer({required this.user});
+  UserContainer({required this.user});
 
   @override
   Widget build(BuildContext context) {

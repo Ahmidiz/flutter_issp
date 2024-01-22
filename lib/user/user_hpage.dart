@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:issp_app/admin/users.dart';
+import 'package:issp_app/user/Uusers.dart';
 import 'package:issp_app/user/task_form.dart';
 import 'package:issp_app/user/user_profile.dart';
 
@@ -121,11 +121,18 @@ class _UserHomePageState extends State<UserHomePage> {
                             ),
                           );
                         },
-                        icon: Icon(Icons.assignment),
-                        label: Text('YOUR TASKS'),
+                        icon: Icon(
+                          Icons.assignment,
+                          color: Colors.black,
+                        ),
+                        label: Text(
+                          'YOUR TASKS',
+                          style: TextStyle(color: Colors.black),
+                        ),
                         style: ElevatedButton.styleFrom(
+                          elevation: 10,
                           fixedSize: Size(300.0, 100.0),
-                          primary: Colors.blue,
+                          primary: Colors.white,
                         ),
                       ),
                       const SizedBox(
@@ -136,7 +143,7 @@ class _UserHomePageState extends State<UserHomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => UsersPage(),
+                              builder: (context) => UusersPage(),
                             ),
                           );
                         },
