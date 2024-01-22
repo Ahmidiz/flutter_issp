@@ -96,7 +96,7 @@ class _UserHomePageState extends State<UserHomePage> {
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
-                          ' to another beautiful day with Info Source, and we wish you a fruitful day',
+                          ' to another day with Info Source, and we wish you a fruitful day',
                           style: GoogleFonts.montserrat(
                             color: Color.fromARGB(255, 255, 255, 255),
                             fontSize: 18,
