@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:issp_app/admin/log_activities.dart';
 import 'package:issp_app/user/Uusers.dart';
 import 'package:issp_app/user/task_form.dart';
 import 'package:issp_app/user/user_profile.dart';
@@ -173,7 +174,13 @@ class _UserHomePageState extends State<UserHomePage> {
                       ),
                       ElevatedButton.icon(
                         onPressed: () {
-                          // Handle button tap
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LogActivitiesPage(
+                                  user: userDetails['userID']),
+                            ),
+                          ); // Handle button tap
                         },
                         icon: Icon(Icons.feedback),
                         label: Text('FEEDBACK'),
