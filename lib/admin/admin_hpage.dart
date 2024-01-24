@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:issp_app/admin/client.dart';
 import 'package:issp_app/admin/users.dart';
 import 'package:issp_app/user/task_form.dart';
@@ -102,7 +103,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
         ),
         body: TabBarView(
           children: [
-            buildPage('Feed Page'),
+            buildImageSlider(), // Replaced 'Feed Page' with image slider
             UsersTabContent(),
             ClientsTabContent(),
             TaskFormPage(),
@@ -112,10 +113,22 @@ class _AdminHomePageState extends State<AdminHomePage> {
     );
   }
 
-  Widget buildPage(String text) => Center(
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 28),
+  Widget buildImageSlider() => CarouselSlider(
+        items: [
+          // Add your image widgets here
+          Image.asset('assets/images/p1.jpg'),
+          Image.asset('assets/images/p2.jpg'),
+          Image.asset('assets/images/p3.jpg'),
+        ],
+        options: CarouselOptions(
+          height: 200,
+          enlargeCenterPage: true,
+          autoPlay: true,
+          aspectRatio: 16 / 9,
+          autoPlayCurve: Curves.fastOutSlowIn,
+          enableInfiniteScroll: true,
+          autoPlayAnimationDuration: Duration(milliseconds: 800),
+          viewportFraction: 0.8,
         ),
       );
 }
