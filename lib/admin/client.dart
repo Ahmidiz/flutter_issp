@@ -1,16 +1,19 @@
 import 'dart:convert';
 
+//import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:issp_app/admin/adding_client.dart';
+import 'package:issp_app/admin/manage_user.dart';
 
-class ClientsPage extends StatefulWidget {
+class ClientsTabContent extends StatefulWidget {
   @override
-  _ClientsPageState createState() => _ClientsPageState();
+  _ClientsTabContentState createState() => _ClientsTabContentState();
 }
 
-class _ClientsPageState extends State<ClientsPage> {
+class _ClientsTabContentState extends State<ClientsTabContent> {
   late TextEditingController searchController;
 
   Future<List<Client>> fetchClients() async {
@@ -70,22 +73,35 @@ class _ClientsPageState extends State<ClientsPage> {
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
+                PopupMenuButton<String>(
+                  icon: Icon(Icons.more_vert),
+                  onSelected: (value) {
+                    if (value == 'adduser') {
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AddClientPage()));
+                          builder: (context) => AddClientPage(),
+                        ),
+                      );
+                    } else if (value == 'refreshscreen') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ClientsTabContent(),
+                        ),
+                      );
+                      // Implement refresh screen logic here
+                      print('Refresh Screen');
+                    }
                   },
-                  style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(16.0),
-                  ),
-                  child: Icon(
-                    Icons.add,
-                    size: 20.0,
-                    color: Colors.white,
-                  ),
+                  itemBuilder: (BuildContext context) {
+                    return {'Add User', 'Refresh Screen'}.map((String choice) {
+                      return PopupMenuItem<String>(
+                        value: choice.toLowerCase().replaceAll(' ', ''),
+                        child: Text(choice),
+                      );
+                    }).toList();
+                  },
                 ),
               ],
             ),
@@ -109,11 +125,27 @@ class _ClientsPageState extends State<ClientsPage> {
                     itemCount: clients?.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTap: () {
-                          // You can navigate to a detailed client page if needed
-                        },
-                        child: ClientsContainer(client: clients![index]),
-                      );
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ClientDetailsPage(client: clients[index]),
+                              ),
+                            );
+                          },
+                          child: ClientContainer(
+                            client: clients![index],
+                            pressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ClientDetailsPage(client: clients[index]),
+                                ),
+                              );
+                            },
+                          ));
                     },
                   );
                 }
@@ -146,57 +178,117 @@ class Client {
   }
 }
 
-class ClientsContainer extends StatelessWidget {
+class ClientContainer extends StatefulWidget {
   final Client client;
+  final VoidCallback pressed; // Change the type to VoidCallback
 
-  const ClientsContainer({required this.client});
+  const ClientContainer({required this.client, required this.pressed});
+
+  @override
+  _ClientContainerState createState() => _ClientContainerState();
+}
+
+class _ClientContainerState extends State<ClientContainer> {
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 105,
-      margin: EdgeInsets.all(15.0),
-      padding: EdgeInsets.only(bottom: 20),
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 247, 250, 255),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Color.fromARGB(231, 204, 184, 179)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              shape: BoxShape.rectangle,
-              // Here, you can display an image related to the client if available
-              color: Colors.grey, // Placeholder color
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isExpanded = !isExpanded;
+        });
+      },
+      child: Container(
+        height: isExpanded ? 300 : 90, // Adjust the expanded height
+        margin: EdgeInsets.all(15.0),
+        padding: EdgeInsets.only(bottom: 20),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 247, 250, 255),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Color.fromARGB(231, 204, 184, 179)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 80, // Adjust the width based on your design
+              height: 80, // Adjust the height based on your design
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                shape: BoxShape.rectangle,
+                image: DecorationImage(
+                  image: AssetImage('assetName'),
+                  /* MemoryImage(
+                    base64Decode(widget.client.propic),
+                  ),*/
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Client: ${client.clientName}',
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${widget.client.clientName}',
                     style: GoogleFonts.rufina(
                       color: const Color.fromARGB(255, 129, 38, 8),
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                    )),
-                Text('Project: ${client.projectName}',
+                    ),
+                  ),
+                  Text(
+                    '${widget.client.projectName}',
                     style: GoogleFonts.aBeeZee(
                       color: Color.fromARGB(255, 23, 22, 22),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                    )),
-                Text('Description: ${client.projectDescription}'),
-              ],
+                    ),
+                  ),
+                  if (isExpanded) // Additional widgets when expanded
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${widget.client.projectDescription}'),
+                        IconButton(
+                          icon: Icon(Icons.person),
+                          onPressed: widget.pressed,
+                          style: ButtonStyle(),
+                          // Use the passed callback
+                        ),
+                        Text('Manage User'),
+                        IconButton(
+                          icon: Icon(Icons.assignment),
+                          onPressed: widget.pressed,
+                          style: ButtonStyle(),
+                          // Use the passed callback
+                        ),
+                        Text('View Log Activities'),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: widget.pressed,
+                          style: ButtonStyle(),
+                          // Use the passed callback
+                        ),
+                        Text('Remove User'),
+
+                        // Add more widgets as needed
+                      ],
+                    ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+}
+
+class ClientsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ClientsTabContent();
   }
 }

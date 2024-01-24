@@ -45,60 +45,62 @@ class _TaskFormPageState extends State<TaskFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 46, 82, 95),
+      backgroundColor: Color.fromARGB(255, 239, 244, 246),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              padding: EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(10.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(
+                height: 20,
               ),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: clientNameController,
-                    decoration: InputDecoration(labelText: 'Client Name'),
-                  ),
-                  SizedBox(height: 16.0),
-                  TextField(
-                    controller: projectNameController,
-                    decoration: InputDecoration(labelText: 'Project Name'),
-                  ),
-                  SizedBox(height: 16.0),
-                  TextField(
-                    controller: projectDescriptionController,
-                    maxLines: 3,
-                    decoration:
-                        InputDecoration(labelText: 'Project Description'),
-                  ),
-                  SizedBox(height: 32.0),
-                  ElevatedButton(
-                    onPressed: _submitForm,
-                    child: Text('Submit'),
-                    style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 46, 82, 95),
+              Container(
+                padding: EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 236, 109, 179),
+                  border: Border.all(color: Colors.white),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: clientNameController,
+                      decoration: InputDecoration(labelText: 'Client Name'),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 16.0),
+                    TextField(
+                      controller: projectNameController,
+                      decoration: InputDecoration(labelText: 'Project Name'),
+                    ),
+                    SizedBox(height: 16.0),
+                    TextField(
+                      controller: projectDescriptionController,
+                      maxLines: 3,
+                      decoration:
+                          InputDecoration(labelText: 'Project Description'),
+                    ),
+                    SizedBox(height: 32.0),
+                    ElevatedButton(
+                      onPressed: _submitForm,
+                      child: Text('Submit'),
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 46, 82, 95),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                _showSecondFormDialog(context);
-              },
-              child: Text('Fill Another Form'),
-              style: ElevatedButton.styleFrom(fixedSize: Size(20, 10)),
-            ),
-          ],
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () {
+                  _showSecondFormDialog(context);
+                },
+                child: Text('Fill Another Form'),
+                style: ElevatedButton.styleFrom(fixedSize: Size(20, 10)),
+              ),
+            ],
+          ),
         ),
       ),
     );

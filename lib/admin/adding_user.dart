@@ -58,6 +58,7 @@ class _AddUserPageState extends State<AddUserPage> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Add User'),
+        backgroundColor: Colors.black,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
